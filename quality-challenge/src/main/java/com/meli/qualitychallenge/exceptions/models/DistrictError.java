@@ -1,4 +1,4 @@
-package com.meli.qualitychallenge.exceptions;
+package com.meli.qualitychallenge.exceptions.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ValidationError {
+public class DistrictError {
     private String message;
     private HttpStatus httpStatus;
 }

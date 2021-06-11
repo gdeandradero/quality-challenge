@@ -1,7 +1,7 @@
 package com.meli.qualitychallenge.service;
 
-import com.meli.qualitychallenge.models.Property;
-import com.meli.qualitychallenge.models.Room;
+import com.meli.qualitychallenge.dto.PropertyDTO;
+import com.meli.qualitychallenge.models.RoomDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -9,8 +9,11 @@ import java.util.Map;
 
 @Service
 public interface PropertyService {
-    ResponseEntity<Double> totalSquareMeterProperty(Property property);
-    ResponseEntity<?> totalPriceProperty(Property property);
-    ResponseEntity<Room> biggestRoom(Property property);
-    ResponseEntity<Map<String, Double>> totalSquareMeterRooms(Property property);
+    ResponseEntity<Double> totalSquareMeterProperty(PropertyDTO propertyDTO);
+
+    ResponseEntity<?> totalPriceProperty(PropertyDTO propertyDTO);
+
+    ResponseEntity<RoomDTO> biggestRoom(PropertyDTO propertyDTO);
+
+    ResponseEntity<Map<String, Double>> totalSquareMeterRooms(PropertyDTO property);
 }

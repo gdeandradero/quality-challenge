@@ -1,14 +1,11 @@
 package com.meli.qualitychallenge.controller;
 
-import com.meli.qualitychallenge.models.Property;
-import com.meli.qualitychallenge.models.Room;
+import com.meli.qualitychallenge.dto.PropertyDTO;
+import com.meli.qualitychallenge.models.RoomDTO;
 import com.meli.qualitychallenge.service.PropertyService;
 import com.meli.qualitychallenge.service.PropertyServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -22,34 +19,33 @@ public class PropertyController {
     /*
      * US 0001 - totalSquareMeterProperty
      */
-    @GetMapping("/total-square-meter-property")
-    public ResponseEntity<Double> totalSquareMeterProperty(@Valid @RequestBody Property property){
-        return propertyService.totalSquareMeterProperty(property);
+    @PostMapping("/total-square-meter-property")
+    public ResponseEntity<Double> totalSquareMeterProperty(@Valid @RequestBody PropertyDTO propertyDTO) {
+        return propertyService.totalSquareMeterProperty(propertyDTO);
     }
 
     /*
      * US 0002 - totalPriceProperty
      */
-    @GetMapping("/total-price-property")
-    public ResponseEntity<?> totalPriceProperty(@Valid @RequestBody Property property){
-        return propertyService.totalPriceProperty(property);
+    @PostMapping("/total-price-property")
+    public ResponseEntity<?> totalPriceProperty(@Valid @RequestBody PropertyDTO propertyDTO) {
+        return propertyService.totalPriceProperty(propertyDTO);
     }
 
     /*
      * US 0003 - biggestRoom
      */
-    @GetMapping("/biggest-room")
-    public ResponseEntity<Room> biggestRoom(@Valid @RequestBody Property property){
-        return propertyService.biggestRoom(property);
+    @PostMapping("/biggest-room")
+    public ResponseEntity<RoomDTO> biggestRoom(@Valid @RequestBody PropertyDTO propertyDTO) {
+        return propertyService.biggestRoom(propertyDTO);
     }
 
     /*
      * US 0004 - totalSquareMeterRooms
      */
-    @GetMapping("/total-square-meter-rooms")
-    public ResponseEntity<Map<String, Double>> totalSquareMeterRooms(@Valid @RequestBody Property property){
-        return propertyService.totalSquareMeterRooms(property);
+    @PostMapping("/total-square-meter-rooms")
+    public ResponseEntity<Map<String, Double>> totalSquareMeterRooms(@Valid @RequestBody PropertyDTO propertyDTO) {
+        return propertyService.totalSquareMeterRooms(propertyDTO);
     }
-
 
 }

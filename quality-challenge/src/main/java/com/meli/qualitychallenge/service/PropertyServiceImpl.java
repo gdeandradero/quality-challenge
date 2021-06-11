@@ -1,9 +1,9 @@
 package com.meli.qualitychallenge.service;
 
 import com.meli.qualitychallenge.dao.DistrictDAO;
-import com.meli.qualitychallenge.exceptions.DistrictError;
-import com.meli.qualitychallenge.models.Property;
-import com.meli.qualitychallenge.models.Room;
+import com.meli.qualitychallenge.dto.PropertyDTO;
+import com.meli.qualitychallenge.exceptions.DistrictException;
+import com.meli.qualitychallenge.models.RoomDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -16,11 +16,11 @@ public class PropertyServiceImpl implements PropertyService {
      * US 0001 - totalSquareMeterProperty
      */
     @Override
-    public ResponseEntity<Double> totalSquareMeterProperty(Property property) {
-        if (property == null || property.getRoomList() == null){
+    public ResponseEntity<Double> totalSquareMeterProperty(PropertyDTO propertyDTO) {
+        if (propertyDTO == null || propertyDTO.getRoomList() == null) {
             return new ResponseEntity<>(0.0, HttpStatus.BAD_REQUEST);
         }
-        Double result = totalSquareMeterPropertyCalc(property);
+        Double result = totalSquareMeterPropertyCalc(propertyDTO);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -28,12 +28,13 @@ public class PropertyServiceImpl implements PropertyService {
      * US 0002 - totalPriceProperty
      */
     @Override
-    public ResponseEntity<Double> totalPriceProperty(Property property) {
-        if (property == null || property.getRoomList() == null){
+    public ResponseEntity<Double> totalPriceProperty(PropertyDTO propertyDTO) {
+        boolean haveNoRoomsOrAreNull = propertyDTO == null || propertyDTO.getRoomList() == null;
+        if (haveNoRoomsOrAreNull) {
             return new ResponseEntity<>(0.0, HttpStatus.BAD_REQUEST);
         }
-        Double priceDistrict = getDistrictPrice(property);
-        Double sizeProperty = totalSquareMeterPropertyCalc(property);
+        Double priceDistrict = getDistrictPrice(propertyDTO);
+        Double sizeProperty = totalSquareMeterPropertyCalc(propertyDTO);
         Double totalPrice = sizeProperty * priceDistrict;
         return new ResponseEntity<>(totalPrice, HttpStatus.OK);
     }
@@ -42,16 +43,16 @@ public class PropertyServiceImpl implements PropertyService {
      * US 0003 - biggestRoom
      */
     @Override
-    public ResponseEntity<Room> biggestRoom(Property property) {
-        if (property == null || property.getRoomList() == null){
-            return new ResponseEntity<>(new Room(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<RoomDTO> biggestRoom(PropertyDTO propertyDTO) {
+        if (propertyDTO == null || propertyDTO.getRoomList() == null) {
+            return new ResponseEntity<>(new RoomDTO(), HttpStatus.BAD_REQUEST);
         }
-        Room biggestRoomAttribute = new Room();
+        RoomDTO biggestRoomAttribute = new RoomDTO();
         biggestRoomAttribute.setWidth(0.0);
         biggestRoomAttribute.setLenght(0.0);
-        for (Room room : property.getRoomList()){
-            if (totalSquareMeterRoom(room) > totalSquareMeterRoom(biggestRoomAttribute)){
-                biggestRoomAttribute = room;
+        for (RoomDTO roomDTO : propertyDTO.getRoomList()) {
+            if (totalSquareMeterRoom(roomDTO) > totalSquareMeterRoom(biggestRoomAttribute)) {
+                biggestRoomAttribute = roomDTO;
             }
         }
         return new ResponseEntity<>(biggestRoomAttribute, HttpStatus.OK);
@@ -61,38 +62,38 @@ public class PropertyServiceImpl implements PropertyService {
      * US 0004 - totalSquareMeterRooms
      */
     @Override
-    public ResponseEntity<Map<String, Double>> totalSquareMeterRooms(Property property) {
-        if (property == null || property.getRoomList() == null){
+    public ResponseEntity<Map<String, Double>> totalSquareMeterRooms(PropertyDTO propertyDTO) {
+        if (propertyDTO == null || propertyDTO.getRoomList() == null) {
             return new ResponseEntity<>(new HashMap<>(), HttpStatus.BAD_REQUEST);
         }
         Map<String, Double> resultMap = new HashMap<>();
-        for (Room room : property.getRoomList()){
-            resultMap.put(room.getName(), totalSquareMeterRoom(room));
+        for (RoomDTO roomDTO : propertyDTO.getRoomList()) {
+            resultMap.put(roomDTO.getName(), totalSquareMeterRoom(roomDTO));
         }
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
-    private Double totalSquareMeterPropertyCalc(Property property){
+    private Double totalSquareMeterPropertyCalc(PropertyDTO propertyDTO) {
         Double result = 0.0;
-        for (Room room : property.getRoomList()){
-            result += totalSquareMeterRoom(room);
+        for (RoomDTO roomDTO : propertyDTO.getRoomList()) {
+            result += totalSquareMeterRoom(roomDTO);
         }
         return result;
     }
 
-    public Double getDistrictPrice(Property property){
+    public Double getDistrictPrice(PropertyDTO propertyDTO) {
         DistrictDAO.fillMap();
         if (!DistrictDAO
                 .districtMap
-                .containsKey(property.getDistrict().toUpperCase())){
-            throw new DistrictError();
+                .containsKey(propertyDTO.getDistrict().toUpperCase())) {
+            throw new DistrictException();
         }
         return DistrictDAO
                 .districtMap
-                .get(property.getDistrict().toUpperCase());
+                .get(propertyDTO.getDistrict().toUpperCase());
     }
 
-    public Double totalSquareMeterRoom(Room room){
-        return room.getLenght() * room.getWidth();
+    public Double totalSquareMeterRoom(RoomDTO roomDTO) {
+        return roomDTO.getLenght() * roomDTO.getWidth();
     }
 }
