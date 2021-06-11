@@ -7,9 +7,9 @@ public class DistrictDAO {
     public static Map<String, Double> districtMap = new HashMap<>();
 
     public static void fillMap(){
-        districtMap.put("ARARAS", 100.0);
-        districtMap.put("BALEIAS", 200.0);
-        districtMap.put("CAMELOS", 300.0);
+        districtMap.put("YELLOW DISTRICT", 100.0);
+        districtMap.put("BLUE DISTRICT", 200.0);
+        districtMap.put("WHITE DISTRICT", 300.0);
     }
 
 }

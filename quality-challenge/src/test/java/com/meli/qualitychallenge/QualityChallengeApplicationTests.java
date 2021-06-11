@@ -3,7 +3,6 @@ package com.meli.qualitychallenge;
 import com.meli.qualitychallenge.exceptions.DistrictError;
 import com.meli.qualitychallenge.models.Property;
 import com.meli.qualitychallenge.models.Room;
-import com.meli.qualitychallenge.service.PropertyService;
 import com.meli.qualitychallenge.service.PropertyServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -25,10 +24,10 @@ class QualityChallengeApplicationTests {
 	@BeforeAll
 	public static void arrange(){
 		List<Room> roomList = new ArrayList<>();
-		roomList.add(new Room("Quarto", 20.0, 20.0));
-		roomList.add(new Room("Sala", 5.0, 5.0));
-		roomList.add(new Room("Banheiro", 1.0, 1.0));
-		property = new Property("Casa Um", "Araras", roomList);
+		roomList.add(new Room("Room", 20.0, 20.0));
+		roomList.add(new Room("Living Room", 5.0, 5.0));
+		roomList.add(new Room("Bathroom", 1.0, 1.0));
+		property = new Property("House One", "Yellow District", roomList);
 	}
 
 	@Test
@@ -59,7 +58,7 @@ class QualityChallengeApplicationTests {
 	void shouldReturnException(){
 		// arrange
 		Property p = property;
-		p.setDistrict("Bairro que não está incluso na lista de bairros");
+		p.setDistrict("Any District");
 
 		// act
 		try {

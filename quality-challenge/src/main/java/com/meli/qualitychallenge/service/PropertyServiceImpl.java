@@ -38,18 +38,6 @@ public class PropertyServiceImpl implements PropertyService {
         return new ResponseEntity<>(totalPrice, HttpStatus.OK);
     }
 
-    public Double getDistrictPrice(Property property){
-        DistrictDAO.fillMap();
-        if (!DistrictDAO
-                .districtMap
-                .containsKey(property.getDistrict().toUpperCase())){
-            throw new DistrictError();
-        }
-        return DistrictDAO
-                .districtMap
-                .get(property.getDistrict().toUpperCase());
-    }
-
     /*
      * US 0003 - biggestRoom
      */
@@ -90,6 +78,18 @@ public class PropertyServiceImpl implements PropertyService {
             result += totalSquareMeterRoom(room);
         }
         return result;
+    }
+
+    public Double getDistrictPrice(Property property){
+        DistrictDAO.fillMap();
+        if (!DistrictDAO
+                .districtMap
+                .containsKey(property.getDistrict().toUpperCase())){
+            throw new DistrictError();
+        }
+        return DistrictDAO
+                .districtMap
+                .get(property.getDistrict().toUpperCase());
     }
 
     public Double totalSquareMeterRoom(Room room){
