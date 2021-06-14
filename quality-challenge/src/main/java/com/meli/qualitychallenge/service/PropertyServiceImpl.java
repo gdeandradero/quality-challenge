@@ -71,18 +71,16 @@ public class PropertyServiceImpl implements PropertyService {
             return new ResponseEntity<>(new SquareMeterRoomsDTO(), HttpStatus.BAD_REQUEST);
         }
         SquareMeterRoomsDTO dto = new SquareMeterRoomsDTO(new ArrayList<>());
-        for (RoomDTO roomDTO : propertyDTO.getRoomList()) {
+        propertyDTO.getRoomList().forEach(roomDTO -> {
             dto.getSquareMeterRoomDTOList().add(new SquareMeterRoomDTO(roomDTO.getName(), squareMeterRoom(roomDTO)));
-        }
+        });
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     private Double totalSquareMeterPropertyCalc(PropertyDTO propertyDTO) {
-        Double result = 0.0;
-        for (RoomDTO roomDTO : propertyDTO.getRoomList()) {
-            result += squareMeterRoom(roomDTO);
-        }
-        return result;
+        return propertyDTO.getRoomList().stream()
+                .mapToDouble(roomDTO -> squareMeterRoom(roomDTO))
+                .sum();
     }
 
     public Double getDistrictPrice(PropertyDTO propertyDTO) {
