@@ -1,6 +1,6 @@
 package com.meli.qualitychallenge.exceptions;
 
-import com.meli.qualitychallenge.exceptions.models.ValidationError;
+import com.meli.qualitychallenge.exceptions.models.DefaultError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +19,12 @@ public class APIExceptionControllerAdvice extends ResponseEntityExceptionHandler
                                                                   HttpStatus status,
                                                                   WebRequest request) {
         String cause = ex.getAllErrors().get(0).getDefaultMessage();
-        return new ResponseEntity<>(new ValidationError(cause, status), status);
+        return new ResponseEntity<>(new DefaultError(cause, status), status);
     }
 
     @ExceptionHandler
     public ResponseEntity<Object> districtError(DistrictException ex) {
-        return new ResponseEntity<>(new ValidationError("District not found", HttpStatus.BAD_REQUEST),
+        return new ResponseEntity<>(new DefaultError("District not found", HttpStatus.BAD_REQUEST),
                 HttpStatus.BAD_REQUEST);
     }
 

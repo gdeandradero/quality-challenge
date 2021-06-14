@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DistrictError {
+public class DefaultError {
     private String message;
     private HttpStatus httpStatus;
 }

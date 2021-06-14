@@ -35,10 +35,32 @@ class PropertyControllerTest {
 
     @Test
     void totalSquareMeterProperty() {
+        Response response = given()
+                .port(this.port)
+                .contentType(ContentType.JSON)
+                .body(propertyDTO)
+                .when()
+                .post("/property/total-square-meter-property")
+                .then()
+                .extract().response();
+
+        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertEquals(426.0, Double.parseDouble(response.asString()));
     }
 
     @Test
     void totalPriceProperty() {
+        Response response = given()
+                .port(this.port)
+                .contentType(ContentType.JSON)
+                .body(propertyDTO)
+                .when()
+                .post("/property/total-price-property")
+                .then()
+                .extract().response();
+
+        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertEquals(42600.0, Double.parseDouble(response.asString()));
     }
 
     @Test
@@ -59,7 +81,29 @@ class PropertyControllerTest {
     }
 
     @Test
-    void totalSquareMeterRooms() {
+    void squareMeterRooms() {
+        Response response = given()
+                .port(this.port)
+                .contentType(ContentType.JSON)
+                .body(propertyDTO)
+                .when()
+                .post("/property/square-meter-rooms")
+                .then()
+                .extract().response();
+
+        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertEquals("Room",
+                response.jsonPath().getString("squareMeterRoomDTOList[0].name"));
+        Assertions.assertEquals("400.0",
+                response.jsonPath().getString("squareMeterRoomDTOList[0].squareMeter"));
+        Assertions.assertEquals("Living Room",
+                response.jsonPath().getString("squareMeterRoomDTOList[1].name"));
+        Assertions.assertEquals("25.0",
+                response.jsonPath().getString("squareMeterRoomDTOList[1].squareMeter"));
+        Assertions.assertEquals("Bathroom",
+                response.jsonPath().getString("squareMeterRoomDTOList[2].name"));
+        Assertions.assertEquals("1.0",
+                response.jsonPath().getString("squareMeterRoomDTOList[2].squareMeter"));
     }
 
 }

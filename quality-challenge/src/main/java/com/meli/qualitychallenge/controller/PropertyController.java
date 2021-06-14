@@ -1,6 +1,7 @@
 package com.meli.qualitychallenge.controller;
 
 import com.meli.qualitychallenge.dto.PropertyDTO;
+import com.meli.qualitychallenge.dto.SquareMeterRoomsDTO;
 import com.meli.qualitychallenge.models.RoomDTO;
 import com.meli.qualitychallenge.service.PropertyService;
 import com.meli.qualitychallenge.service.PropertyServiceImpl;
@@ -8,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/property")
@@ -28,7 +28,7 @@ public class PropertyController {
      * US 0002 - totalPriceProperty
      */
     @PostMapping("/total-price-property")
-    public ResponseEntity<?> totalPriceProperty(@Valid @RequestBody PropertyDTO propertyDTO) {
+    public ResponseEntity<Double> totalPriceProperty(@Valid @RequestBody PropertyDTO propertyDTO) {
         return propertyService.totalPriceProperty(propertyDTO);
     }
 
@@ -43,9 +43,10 @@ public class PropertyController {
     /*
      * US 0004 - totalSquareMeterRooms
      */
-    @PostMapping("/total-square-meter-rooms")
-    public ResponseEntity<Map<String, Double>> totalSquareMeterRooms(@Valid @RequestBody PropertyDTO propertyDTO) {
-        return propertyService.totalSquareMeterRooms(propertyDTO);
+    @PostMapping("/square-meter-rooms")
+    public ResponseEntity<SquareMeterRoomsDTO> squareMeterRooms(
+            @Valid @RequestBody PropertyDTO propertyDTO) {
+        return propertyService.squareMeterRooms(propertyDTO);
     }
 
 }

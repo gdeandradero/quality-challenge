@@ -6,7 +6,6 @@ import com.meli.qualitychallenge.models.RoomDTO;
 import com.meli.qualitychallenge.service.PropertyServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -78,12 +77,12 @@ class QualityChallengeApplicationTests {
     }
 
     @Test
-    void shouldReturnTotalSquareMeterRoom() {
+    void shouldReturnSquareMeterRoom() {
         // arrange
         Double expected = 400.0;
 
         // act
-        Double result = service.totalSquareMeterRoom(propertyDTO.getRoomList().get(0));
+        Double result = service.squareMeterRoom(propertyDTO.getRoomList().get(0));
 
         // assert
         assertEquals(expected, result);
