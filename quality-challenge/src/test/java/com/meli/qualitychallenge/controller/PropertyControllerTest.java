@@ -77,7 +77,7 @@ class PropertyControllerTest {
         Assertions.assertEquals(200, response.statusCode());
         Assertions.assertEquals("Room", response.jsonPath().getString("name"));
         Assertions.assertEquals(20.0, response.jsonPath().getDouble("width"));
-        Assertions.assertEquals(20.0, response.jsonPath().getDouble("lenght"));
+        Assertions.assertEquals(20.0, response.jsonPath().getDouble("length"));
     }
 
     @Test

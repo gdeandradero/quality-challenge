@@ -52,7 +52,7 @@ public class PropertyServiceImpl implements PropertyService {
         }
         RoomDTO biggestRoomAttribute = new RoomDTO();
         biggestRoomAttribute.setWidth(0.0);
-        biggestRoomAttribute.setLenght(0.0);
+        biggestRoomAttribute.setLength(0.0);
         for (RoomDTO roomDTO : propertyDTO.getRoomList()) {
             if (squareMeterRoom(roomDTO) > squareMeterRoom(biggestRoomAttribute)) {
                 biggestRoomAttribute = roomDTO;
@@ -98,6 +98,6 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     public Double squareMeterRoom(RoomDTO roomDTO) {
-        return roomDTO.getLenght() * roomDTO.getWidth();
+        return roomDTO.getLength() * roomDTO.getWidth();
     }
 }
