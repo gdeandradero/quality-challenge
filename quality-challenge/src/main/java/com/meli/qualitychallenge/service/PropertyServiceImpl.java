@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class PropertyServiceImpl implements PropertyService {
 
@@ -53,11 +54,8 @@ public class PropertyServiceImpl implements PropertyService {
         RoomDTO biggestRoomAttribute = new RoomDTO();
         biggestRoomAttribute.setWidth(0.0);
         biggestRoomAttribute.setLength(0.0);
-        for (RoomDTO roomDTO : propertyDTO.getRoomList()) {
-            if (squareMeterRoom(roomDTO) > squareMeterRoom(biggestRoomAttribute)) {
-                biggestRoomAttribute = roomDTO;
-            }
-        }
+        biggestRoomAttribute = propertyDTO.getRoomList().stream()
+                .max(Comparator.comparing(roomDTO -> squareMeterRoom(roomDTO))).get();
         return new ResponseEntity<>(biggestRoomAttribute, HttpStatus.OK);
     }
 
